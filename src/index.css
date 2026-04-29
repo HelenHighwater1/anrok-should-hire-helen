@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-portfolio-sidebar: #ebebeb;
+  --color-portfolio-accent: #3d5a80;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -8,4 +15,73 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-sans);
+  color: #171717;
+  background-color: #ffffff;
 }
+
+/* Subtle decorative grid (faint pink / editorial tone, reference portfolio) */
+.app-pattern {
+  background-color: #ffffff;
+  background-image: radial-gradient(circle at 1px 1px, rgb(252 231 243 / 0.45) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+@keyframes nexus-flash {
+  0%   { fill: #fbbf24; }
+  40%  { fill: #ef4444; }
+  100% { fill: #dc2626; }
+}
+
+.nexus-flash {
+  animation: nexus-flash 1.8s ease-out forwards;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast-enter {
+  animation: toast-in 0.2s ease-out forwards;
+}
+
+/* Tour spotlight: blue ring + pulsing outer glow (box-shadow only — position/size set inline). */
+@keyframes spotlight-rim-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px rgb(61 90 128),
+      0 0 18px 4px rgb(59 130 246 / 0.5),
+      0 0 40px 12px rgb(96 165 250 / 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px rgb(37 99 235),
+      0 0 28px 8px rgb(59 130 246 / 0.7),
+      0 0 52px 18px rgb(147 197 253 / 0.45);
+  }
+}
+
+.spotlight-rim {
+  pointer-events: none;
+  animation: spotlight-rim-glow 2.4s ease-in-out infinite;
+}
+
+/* Pulsing glow as a state approaches its nexus threshold. Intensity tiers
+   are applied as separate classes so we can scale the effect with proximity. */
+@keyframes nexus-glow-approach-soft {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(234, 88, 12, 0.35)); }
+  50%      { filter: drop-shadow(0 0 5px rgba(234, 88, 12, 0.55)); }
+}
+@keyframes nexus-glow-approach-strong {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(234, 88, 12, 0.5)); }
+  50%      { filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.55)); }
+}
+@keyframes nexus-glow-established {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(185, 28, 28, 0.45)); }
+  50%      { filter: drop-shadow(0 0 8px rgba(185, 28, 28, 0.65)); }
+}
+
+.nexus-glow-approach-soft   { animation: nexus-glow-approach-soft   2.4s ease-in-out infinite; }
+.nexus-glow-approach-strong { animation: nexus-glow-approach-strong 1.6s ease-in-out infinite; }
+.nexus-glow-established     { animation: nexus-glow-established     2.8s ease-in-out infinite; }

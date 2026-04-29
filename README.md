@@ -1,73 +1,31 @@
-# React + TypeScript + Vite
+# Hey, Anrok team.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Why I built this
 
-Currently, two official plugins are available:
+I saw the Software Engineer (Early Career) role and wanted to show you how I work rather than just tell you about it. So I built this over a few days. It's a working demo that simulates a SaaS company tripping economic nexus thresholds across the US in real time - Anrok's actual problem space, in miniature.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What it does
 
-## React Compiler
+The app simulates "Exemptify," a fictional B2B SaaS selling subscriptions to customers in ten states. The map shades each state by progress toward its economic nexus threshold and flashes red the moment one is crossed. The filing panel below it builds quarterly tax obligations as nexus is established — real state base rates, real thresholds, real Q1/Q2/Q3/Q4 windows. The transaction feed streams sales as they happen, with amber banners marking the exact moment a state tips into nexus. A short spotlight tour walks you through each panel on first load.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The data is real. Nexus thresholds and measurement periods come from the Texas Comptroller, the NY Department of Taxation and Finance, and TaxCloud's 2026 state-by-state guide, all sourced in [`src/data/nexus-data.ts`](src/data/nexus-data.ts). The seed puts several states close to threshold so within seconds of hitting Play you watch nexus actually fire mid-quarter — the dramatic moment Anrok exists to handle.
 
-## Expanding the ESLint configuration
+## Why these technical choices
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React + TypeScript + Vite + Tailwind is the foundation.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The business logic lives in pure functions in [`src/lib/nexus.ts`](src/lib/nexus.ts) — nexus detection, tax calculation, and filing aggregation, all taking and returning plain values. They're easy to reason about, trivial to unit test, and would lift cleanly into a Node backend without a rewrite. This separation matters in a tax product because the same calc has to run in batch jobs and in user-facing flows.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+State management is React Context + `useReducer` — see [`src/context/SimulationContext.tsx`](src/context/SimulationContext.tsx). The simulation state is small and one-directional, so Redux or Zustand would have been overkill.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The map uses `react-simple-maps` and `d3-geo`. I needed an SVG US map with per-state fills, hover, and labels at each state's centroid; building it manually against a TopoJSON would have cost a day for no incremental learning value.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+There's no backend. State is in-memory and resets on refresh. This is a demo, not a product, and a fake API layer would have added complexity without showing you anything new about how I work.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Honest notes
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The biggest deliberate simplification is that the tax and nexus math runs on the frontend. With more time I'd move `src/lib/nexus.ts` behind a small Node API, add Postgres for persistence, and write integration tests against the calc layer. I'd also model state-specific edge cases properly, like Texas's four-month grace period before collection begins, which the demo currently ignores.
+
+This is far from what I'd ship to a real user, but I hope it shows you that I take the domain seriously, can build something end-to-end, and am honest about the tradeoffs.
+
+__[Check out my portfolio](https://heyimhelen.com/)__ | __[LinkedIn](https://www.linkedin.com/in/helen-highwater-96981532/)__
