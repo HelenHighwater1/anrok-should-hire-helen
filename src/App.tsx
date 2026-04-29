@@ -10,6 +10,8 @@ import { NexusToastContainer } from './components/NexusToast'
 
 const SPEED_OPTIONS = [1, 2, 5, 10, 20]
 
+const REPO_URL = 'https://github.com/HelenHighwater1/anrok-should-hire-helen#hey-anrok-team'
+
 // ─── Header ───────────────────────────────────────────────────────────────────
 
 function Header({ onReplayTour }: { onReplayTour?: () => void }) {
@@ -27,16 +29,25 @@ function Header({ onReplayTour }: { onReplayTour?: () => void }) {
           href="https://heyimhelen.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-mono text-portfolio-accent hover:opacity-80 transition-opacity shrink-0"
+          className="cursor-pointer text-sm font-mono text-portfolio-accent hover:opacity-80 transition-opacity shrink-0"
         >
           heyimhelen.com
         </a>
       </div>
 
       <div className="ml-auto flex items-center gap-4">
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cursor-pointer text-xs font-mono text-neutral-500 hover:text-neutral-900 transition-colors uppercase tracking-wide"
+        >
+          GitHub
+        </a>
         <button
+          type="button"
           onClick={onReplayTour}
-          className="text-xs font-mono text-neutral-500 hover:text-neutral-900 transition-colors uppercase tracking-wide"
+          className="cursor-pointer text-xs font-mono text-neutral-500 hover:text-neutral-900 transition-colors uppercase tracking-wide"
         >
           Tour
         </button>
@@ -75,8 +86,9 @@ function Dashboard() {
             {SPEED_OPTIONS.map((s) => (
               <button
                 key={s}
+                type="button"
                 onClick={() => setSpeed(s)}
-                className={`px-2 sm:px-3 py-1 rounded-sm text-xs font-mono font-medium transition-colors ${
+                className={`cursor-pointer px-2 sm:px-3 py-1 rounded-sm text-xs font-mono font-medium transition-colors ${
                   ticksPerSecond === s
                     ? 'bg-neutral-900 text-white'
                     : 'text-neutral-500 hover:text-neutral-900'
@@ -89,8 +101,9 @@ function Dashboard() {
 
           {/* Play / Pause */}
           <button
+            type="button"
             onClick={toggleRunning}
-            className={`px-4 py-1.5 rounded-sm text-xs font-mono font-medium border border-neutral-900 transition-colors ${
+            className={`cursor-pointer px-4 py-1.5 rounded-sm text-xs font-mono font-medium border border-neutral-900 transition-colors ${
               isRunning
                 ? 'bg-white text-neutral-900 hover:bg-neutral-100'
                 : 'bg-portfolio-accent text-white hover:opacity-90'

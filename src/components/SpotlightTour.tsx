@@ -137,7 +137,7 @@ export function SpotlightTour({ onDone }: { onDone: () => void }) {
                 </div>
               ))}
             </div>
-            <button type="button" onClick={onDone} className="text-xs font-mono text-neutral-500 hover:text-neutral-900 uppercase tracking-wide transition-colors shrink-0">
+            <button type="button" onClick={onDone} className="cursor-pointer text-xs font-mono text-neutral-500 hover:text-neutral-900 uppercase tracking-wide transition-colors shrink-0">
               Skip
             </button>
           </div>
@@ -156,7 +156,7 @@ export function SpotlightTour({ onDone }: { onDone: () => void }) {
                 ← Back
               </span>
             ) : (
-              <button type="button" onClick={() => setStep((s) => s - 1)} className="justify-self-start px-3 py-1.5 text-xs font-mono text-neutral-500 hover:text-neutral-900 transition-colors">
+              <button type="button" onClick={() => setStep((s) => s - 1)} className="cursor-pointer justify-self-start px-3 py-1.5 text-xs font-mono text-neutral-500 hover:text-neutral-900 transition-colors">
                 ← Back
               </button>
             )}
@@ -164,7 +164,7 @@ export function SpotlightTour({ onDone }: { onDone: () => void }) {
               type="button"
               autoFocus
               onClick={() => (isLast ? onDone() : setStep((s) => s + 1))}
-              className="justify-self-end min-w-[7.5rem] px-5 py-1.5 rounded-sm text-xs font-mono font-medium bg-[#3d5a80] text-white border border-neutral-900 hover:opacity-90 transition-opacity text-center"
+              className="cursor-pointer justify-self-end min-w-[7.5rem] px-5 py-1.5 rounded-sm text-xs font-mono font-medium bg-[#3d5a80] text-white border border-neutral-900 hover:opacity-90 transition-opacity text-center"
             >
               {isLast ? 'Get started' : 'Next →'}
             </button>
